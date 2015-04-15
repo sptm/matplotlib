@@ -695,7 +695,7 @@ class Text(Artist):
                     line = ""
 
                 if line == "":
-                    line = subwords[i]
+                    line = sub_words[i]
                 else:
                     line += ' ' + sub_words[i]
 

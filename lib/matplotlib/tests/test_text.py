@@ -441,3 +441,33 @@ def test_empty_annotation_get_window_extent():
     eq_(points[1, 0], 0.0)
     eq_(points[1, 1], 50.0)
     eq_(points[0, 1], 50.0)
+
+@image_comparison(baseline_images=['basictext_wrap'],
+                  extensions=['png'])
+def test_basic_wrap():
+    fig = plt.figure()
+    plt.axis([0, 10, 0, 10])
+    t = "This is a really long string that I'd rather have wrapped so that it"\
+    " doesn't go outside of the figure, but if it's long enough it will go"\
+    " off the top or bottom!"
+    plt.text(4, 1, t, ha='left', rotation=15, wrap=True)
+    plt.text(6, 5, t, ha='left', rotation=15, wrap=True)
+    plt.text(5, 5, t, ha='right', rotation=-15, wrap=True)
+    plt.text(5, 10, t, fontsize=18, style='oblique', ha='center', va='top', wrap=True)
+    plt.text(3, 4, t, family='serif', style='italic', ha='right', wrap=True)
+    plt.text(-1, 0, t, ha='left', rotation=-15, wrap=True)
+
+@image_comparison(baseline_images=['fonttext_wrap'],
+                  extensions=['png'])
+def test_font_wrap():
+    fig = plt.figure()
+    plt.axis([0, 10, 0, 10])
+    t = "This is a really long string that I'd rather have wrapped so that it"\
+    " doesn't go outside of the figure, but if it's long enough it will go"\
+    " off the top or bottom!"
+    plt.text(4, -1, t, fontsize=18, family='Umpush', ha='left', rotation=15, wrap=True)
+    plt.text(6, 5, t, family='Times New Roman', ha='left', rotation=15, wrap=True)
+    plt.text(5, 5, t, family='monospace', ha='right', rotation=-15, wrap=True)
+    plt.text(5, 10, t, family='Waree', fontsize=18, style='oblique', ha='center', va='top', wrap=True)
+    plt.text(3, 4, t, family='serif', style='italic', ha='right', wrap=True)
+    plt.text(-1, 0, t, fontsize=14, family='sans-serif',ha='left', rotation=-15, wrap=True)

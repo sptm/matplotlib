@@ -44,6 +44,19 @@ def _process_text_args(override, fontdict=None, **kwargs):
     return override
 
 
+@contextlib.contextmanager
+def _wrap_text(textobj):
+    if textobj.get_wrap():
+        old_text = textobj.get_text()
+        try:
+            textobj.set_text(textobj._get_wrapped_text())
+            yield textobj
+        except:
+            textobj.set_text(old_text)
+    else:
+        yield textobj
+
+
 # Extracted from Text's method to serve as a function
 def get_rotation(rotation):
     """
@@ -703,18 +716,6 @@ class Text(Artist):
 
         return wrapped_str + line
 
-    @contextlib.contextmanager
-    def _wrap_text():
-        if self.get_wrap():
-            old_text = self.get_text()
-            try:
-                self.set_text(self._get_wrapped_text())
-                yield
-            except:
-                self.set_text(old_text)
-        else:
-            yield
-
     @allow_rasterization
     def draw(self, renderer):
         """
@@ -729,7 +730,7 @@ class Text(Artist):
 
         renderer.open_group('text', self.get_gid())
 
-        with _wrap_text():
+        with _wrap_text(self) as self:
             bbox, info, descent = self._get_layout(renderer)
             trans = self.get_transform()
 

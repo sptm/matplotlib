@@ -51,7 +51,7 @@ def _wrap_text(textobj):
         try:
             textobj.set_text(textobj._get_wrapped_text())
             yield textobj
-        except:
+        finally:
             textobj.set_text(old_text)
     else:
         yield textobj
